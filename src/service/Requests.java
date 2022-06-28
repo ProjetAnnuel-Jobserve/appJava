@@ -138,13 +138,13 @@ public class Requests {
 	 * @throws URISyntaxException 
 	 * @throws InterruptedException 
 	 */
-	public void addTask(String name, String desc, String date, String state) throws IOException, URISyntaxException, InterruptedException {
+	public void addTask(String name, String desc, String date, String state, String contributor) throws IOException, URISyntaxException, InterruptedException {
 		int idState = 0;
 		if(state == "A faire") {idState = 1;}
 		else if(state == "En cours") {idState = 2;}
 		else if(state == "Terminé") {idState = 3;}
 		
-		String jsonInputString = String.format("{ \"name\":\"%s\", \"description\":\"%s\", \"dateEnded\":\"%S\", \"idStatus\":%d}", name, desc, date, idState);
+		String jsonInputString = String.format("{ \"name\":\"%s\", \"description\":\"%s\", \"dateEnded\":\"%S\", \"person\":\"%s\", \"idStatus\":%d}", name, desc, date, contributor, idState);
         String url = "https://java-schedule-moc.herokuapp.com/tasks";
         
         var request = HttpRequest.newBuilder()
@@ -158,37 +158,42 @@ public class Requests {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
  
         System.out.println(response.statusCode());
-        if(response.statusCode() == 500) {
+        /*if(response.statusCode() == 500) {
         	Ajout frm1 = new Ajout();
 			WarningAdd frm2 = new WarningAdd("Remplissez les champs obligatoires");
 			frm2.setVisible(true);
 			frm1.setVisible(false);
-        }
+        }*/
         //System.out.println(response.body());
 	}
 	 
 	/**
 	 * 
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public void updateTask() throws IOException {
-		URL url = new URL("");
-		HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		con.setRequestMethod("PUT");
-		con.setDoOutput(true);
-		con.setRequestProperty("Content-Type", "application/json");
-
-		String data = "{\n  \"Id\": 12345,\n  \"Customer\": \"John Smith\",\n  \"Quantity\": 1,\n  \"Price\": 10.00\n}";
-
-		byte[] out = data.getBytes(StandardCharsets.UTF_8);
-
-		OutputStream stream = con.getOutputStream();
-		stream.write(out);
-
-		System.out.println(con.getResponseCode() + " " + con.getResponseMessage());
-		con.disconnect();
-
-
+	public void updateTask(String name, String desc, String date, String state, String contributor, String _id) throws IOException, InterruptedException {
+		int idState = 0;
+		if(state == "A faire") {idState = 1;}
+		else if(state == "En cours") {idState = 2;}
+		else if(state == "Terminé") {idState = 3;}
+	
+		
+		String data = String.format("{ \"name\":\"%s\", \"description\":\"%s\", \"dateEnded\":\"%S\", \"person\":\"%s\", \"_id\":\"%S\", \"idStatus\":%d}", name, desc, date, contributor, _id, idState);
+		System.out.println(data);
+		String url = "https://java-schedule-moc.herokuapp.com/tasks/";
+        
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(data))
+                .build();
+     
+        var client = HttpClient.newHttpClient();
+        
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+ 
+        System.out.println(response.statusCode());
 	}
 	 
 	public void deleteTask(String id) throws IOException, InterruptedException {

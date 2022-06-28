@@ -294,7 +294,7 @@ public class Home extends JFrame implements ActionListener {
             	String name  = (String) toDoList.getSelectedValue();
             	
             	//Appelle API pour récupérer la tache en fonction de son nom
-            	this.task = new Task(name, "desc", "12/05/2022", "A faire", "");
+            	this.task = new Task(name, "desc", "12/05/2022", "A faire", "", "");
                 System.out.println("Value Selected: " + name);
                 Home frm1 = new Home();
     	    	Description frm2 = new Description(task);
@@ -303,7 +303,7 @@ public class Home extends JFrame implements ActionListener {
             }
             else if(index == -1 && index2 == -1) {
             	String name  = (String) currentList.getSelectedValue();
-            	this.task = new Task(name, "desc", "12/05/2022", "En cours", "");
+            	this.task = new Task(name, "desc", "12/05/2022", "En cours", "", "");
                 System.out.println("Value Selected: " + name);
                 Home frm1 = new Home();
     	    	Description frm2 = new Description(task);
@@ -312,7 +312,7 @@ public class Home extends JFrame implements ActionListener {
             }
             else if(index == -1 && index1 == -1) {
             	String name  = (String) doneList.getSelectedValue();
-            	this.task = new Task(name, "desc", "12/05/2022", "Terminé", "");
+            	this.task = new Task(name, "desc", "12/05/2022", "Terminé", "", "");
                 System.out.println("Value Selected: " + name);
                 Home frm1 = new Home();
     	    	Description frm2 = new Description(task);

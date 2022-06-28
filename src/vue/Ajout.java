@@ -33,7 +33,7 @@ public class Ajout extends JFrame {
 	private JTextField nameField;
 	private JTextField endDateField;
 	private JTextArea description;
-	private String state;
+	private String state, contributor;
 	private Requests service = new Requests();
 
 	/**
@@ -58,7 +58,7 @@ public class Ajout extends JFrame {
 	 */
 	public Ajout() {
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 464, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,9 +69,10 @@ public class Ajout extends JFrame {
 		JLabel labelDescription = new JLabel("Description");
 		JLabel labelEndDate = new JLabel("Date de fin *");
 		JLabel labelState = new JLabel("Statut");
+		JLabel personLabel = new JLabel("Contributeurs");
 		
 		nameField = new JTextField();
-		nameField.setColumns(10);
+		nameField.setColumns(10); 
 		
 		endDateField = new JTextField();
 		endDateField.setColumns(10);
@@ -82,6 +83,8 @@ public class Ajout extends JFrame {
 		JComboBox stateBox = new JComboBox();
 		stateBox.setModel(new DefaultComboBoxModel(new String[] {"A faire", "En cours", "Terminé"}));
 		
+		JComboBox contributorBox = new JComboBox();
+		contributorBox.setModel(new DefaultComboBoxModel(new String[] {"Zinedine", "Thomas", "Yvan"}));
 		
 		//En fonction du statut, ajouter à un tableau les valeurs des champs et ajouter le nom à la bonne liste d'accueil
 		/*stateBox.addActionListener(new ActionListener() {
@@ -96,8 +99,9 @@ public class Ajout extends JFrame {
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				state = stateBox.getSelectedItem().toString();
-				try {
-					service.addTask(nameField.getText(), description.getText(), endDateField.getText(), state);
+				contributor = contributorBox.getSelectedItem().toString()
+;				try {
+					service.addTask(nameField.getText(), description.getText(), endDateField.getText(), state, contributor);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -109,78 +113,88 @@ public class Ajout extends JFrame {
 					e1.printStackTrace();
 				}
 				
-				cleanField(nameField, endDateField, description, stateBox);
+				cleanField(nameField, endDateField, description, stateBox, contributorBox);
 			}
 		});
 		
+		
+		
+		
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(labelTitle, GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(labelDescription)
-							.addGap(138))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(description, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-									.addGap(12)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(nameField, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
-										.addComponent(labelName))))
-							.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(labelEndDate, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-							.addComponent(stateBox, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
-							.addComponent(endDateField, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(8)
-							.addComponent(labelState)))
-					.addGap(13))
-				.addComponent(labelTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(314, Short.MAX_VALUE)
-					.addComponent(saveButton)
-					.addContainerGap())
+							.addGap(15)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(nameField, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
+									.addComponent(labelName)
+									.addComponent(personLabel))
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(labelDescription)
+									.addComponent(description, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(contributorBox, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(27)
+								.addComponent(labelState))
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(18)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(labelEndDate, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+									.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(stateBox, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE))
+						.addComponent(saveButton))
+					.addGap(18))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(labelTitle)
-					.addGap(42)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(labelEndDate)
 						.addComponent(labelName))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(8)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(nameField, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-					.addGap(26)
+						.addComponent(nameField, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(endDateField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(16)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(labelState)
-						.addComponent(labelDescription))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(personLabel))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(stateBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(contributorBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(labelDescription)
+					.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(17)
-							.addComponent(stateBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-							.addComponent(saveButton))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(description, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-							.addGap(39))))
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addComponent(saveButton))
+					.addGap(36))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
 
-	public void cleanField(JTextField nameField, JTextField dateField, JTextArea descArea, JComboBox state) {
+	public void cleanField(JTextField nameField, JTextField dateField, JTextArea descArea, JComboBox state, JComboBox contributor) {
 		nameField.setText("");
 		dateField.setText("");
 		descArea.setText("");
 		state.setModel(new DefaultComboBoxModel(new String[] {"A faire", "En cours", "Terminé"}));
+		contributor.setModel(new DefaultComboBoxModel(new String[] {"Zinedine", "Thomas", "Yvan"}));
 	}
 }
